@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Listar Álbuns</title>
+</head>
+<body>
+<div layout:fragment="conteudo" class="container mt-5">
+    <h1>Lista de Álbuns Cadastrados</h1>
+
+    <div class="alert alert-success"
+         th:if="!${#strings.isEmpty(mensagem)}" th:text="${mensagem}">
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nome do Álbum</th>
+            <th>Descrição</th>
+            <th>Artista</th>
+            <th>Gênero</th>
+            <th>Data de Lançamento</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="album:${albuns}">
+            <td th:text="${album.nome}"></td>
+            <td th:text="${album.about}"></td>
+            <td th:text="${album.artist}"></td>
+            <td th:text="${album.genMusic}"></td>
+            <td th:text="${#temporals.format(album.dataLancamento, 'dd/MM/yyyy')}"></td>
+            <td>
+                <a th:href="@{/album/editar/}+${album.id}" class="btn btn-outline-primary">Editar</a>
+
+                <button th:onclick="|albumId.value = ${album.id}|" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Remover
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <a th:href="@{/album/cadastrar}" class="btn btn-success">Cadastrar Novo Álbum</a>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Remover Álbum</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja remover este álbum?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form th:action="@{/album/remover}" method="post">
+                        <input type="hidden" name="id" id="albumId" th:value="${album.id}"/>
+                        <button type="submit" class="btn btn-danger">Remover</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

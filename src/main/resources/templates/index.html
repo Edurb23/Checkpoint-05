@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">JARVIS DISCO</title>
+  <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">JARVIS DISCO</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/index}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/cadastrar}">Cadastrar Álbum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/listar}">Listagem de Álbuns</a>
+        </li>
+
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar Álbum" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar Artista" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+
+    </div>
+  </div>
+</nav>
+
+<div layout:fragment="conteudo" class="container mt-5">
+  <h1>JARVIS DISCO</h1>
+  <h2>Lista de Integrantes</h2>
+  <ul class="list-group">
+    <li class="list-group-item">Raphael Pabst  rm98525</li>
+    <li class="list-group-item">Silvio Junior rm550821</li>
+    <li class="list-group-item">Pedro Braga  rm551061</li>
+    <li class="list-group-item">Eduardo Reis Braga rm551987</li>
+    <li class="list-group-item">Vinícius Martins Torres Abdala rm99455</li>
+  </ul>
+</div>
+
+</body>
+</html>
