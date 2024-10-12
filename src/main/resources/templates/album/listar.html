@@ -30,16 +30,8 @@
     </div>
 </nav>
 
-
 <div layout:fragment="conteudo" class="container mt-5">
     <h1 style="font-family: 'Bodoni Seventy Two Bold', serif;">Lista de Álbuns Cadastrados</h1>
-
-    <form class="d-flex justify-content-end mt-3 mb-3" th:action="@{/album/listar}" method="get">
-        <input class="form-control me-2" type="search" name="search" placeholder="Buscar Artista" aria-label="Search" style="width: 200px; font-family: 'Bodoni Seventy Two Bold', serif">
-        <button class="btn btn-outline-black" type="submit" style="background-color: #49322f; color: white;">Buscar</button>
-    </form>
-
-
 
 
     <div class="alert alert-success"
@@ -60,7 +52,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="album : ${albuns}">
+
+        <tr th:each="album : ${albunsPage.content}">
             <td class="fw-bold" th:text="${album.nome}"></td>
             <td class="text-muted" th:text="${album.about}"></td>
             <td th:text="${album.artist}"></td>
@@ -68,22 +61,32 @@
             <td th:text="${#temporals.format(album.dataLacamento, 'dd/MM/yyyy')}"></td>
             <td>
                 <a th:href="@{/album/editar/}+${album.id}"
-                   class="btn btn-outline"  style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Editar</a>
+                   class="btn btn-outline" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Editar</a>
             </td>
-            <td>
+            <th>
                 <button th:onclick="|albumId.value = ${album.id}|" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Remover
                 </button>
-            </td>
+            </th>
         </tr>
         </tbody>
     </table>
 
 
+    <nav th:if="${albunsPage.totalPages > 1}">
+        <ul class="pagination justify-content-center">
 
-    <a th:href="@{/album/cadastrar}" class="btn" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Cadastrar Novo Álbum</a>
 
-    <!-- Modal -->
+            <li th:each="i : ${#numbers.sequence(0, albunsPage.totalPages - 1)}"
+                th:classappend="${i == albunsPage.number} ? 'active'" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">
+                <a class="page-link" th:href="@{/album/listar(page=${i})}"
+                   th:text="${i + 1}" >1</a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <!-- Modal de confirmação -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -92,11 +95,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Deseja realmente excluir esse album?
+                    Deseja realmente excluir o produto?
                 </div>
                 <div class="modal-footer">
                     <form th:action="@{/album/remover}" method="post">
-                        <input type="hidden" name="codigo" id="albumId"/>
+                        <input type="hidden" name="id" id="albumId"/>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
                         <button type="submit" class="btn btn-danger">Sim</button>
                     </form>
@@ -107,6 +110,12 @@
 
 
 
+
+
+
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>

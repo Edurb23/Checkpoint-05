@@ -12,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("album")
@@ -27,8 +30,10 @@ public class AlbumController {
     }
 
     @GetMapping("listar")
-    public String listaAlbum(Model model){
-        model.addAttribute("albuns", repository.findAll());
+    public String listaAlbum(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<Album> albunsPage = repository.findAll(pageable);
+        model.addAttribute("albunsPage", albunsPage);
         return "album/listar";
     }
 
@@ -77,11 +82,14 @@ public class AlbumController {
 
     @PostMapping("remover")
     @Transactional
-    public String remover(Long codigo, RedirectAttributes redirectAttributes) {
-        repository.deleteById(codigo);
-        redirectAttributes.addFlashAttribute("mensagem", "Álbum removido com sucesso");
+    public String remover(Long id, RedirectAttributes redirectAttributes) {
+        repository.deleteById(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Album removido");
         return "redirect:/album/listar";
     }
+
+
+
 
 
 
