@@ -5,22 +5,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Álbum</title>
+  <title>Editar Álbum</title>
   <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
+    <a class="navbar-brand"th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Home</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" th:href="@{/album/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Álbum</a>
         </li>
@@ -35,10 +32,12 @@
   </div>
 </nav>
 
+<<div class="container mt-5">
+  <h1>Editar Álbum</h1>
+  <form th:action="@{/album/editar}" th:object="${album}" method="post">
+    <!-- Campo oculto para o ID -->
+    <input type="hidden" th:field="*{id}">
 
-<div class="container mt-5">
-  <h1>Cadastrar Álbum</h1>
-  <form th:action="@{/album/cadastrar}" th:object="${album}" method="post">
     <div class="mb-3">
       <label  class="form-label">Nome do Álbum</label>
       <input type="text" th:field="*{nome}" class="form-control" placeholder="Digite a descrição do álbum">
@@ -63,9 +62,10 @@
                 th:value="${gm}" th:text="${gm.label}"></option>
       </select>
     </div>
-    <button type="submit" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Cadastrar</button>
+    <button type="submit" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Salvar</button>
   </form>
 </div>
+
 
 </body>
 </html>

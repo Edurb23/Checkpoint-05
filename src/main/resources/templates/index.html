@@ -10,37 +10,28 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">JARVIS DISCO</a>
+    <a class="navbar-brand" th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/index}">Home</a>
+          <a class="nav-link" th:href="@{/album/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Álbum</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/album/cadastrar}">Cadastrar Álbum</a>
+          <a class="nav-link" th:href="@{/album/listar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Listagem de Álbuns</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/album/listar}">Listagem de Álbuns</a>
+          <a class="nav-link" th:href="@{/album/pesquisar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Pesquisar Artista</a>
         </li>
-
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar Álbum" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar Artista" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
-
     </div>
   </div>
 </nav>
+
 
 <div layout:fragment="conteudo" class="container mt-5">
   <h1>JARVIS DISCO</h1>

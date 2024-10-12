@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pesquisa de Álbuns</title>
+  <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Álbum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/listar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Listagem de Álbuns</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/pesquisar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Pesquisar Artista</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container mt-5">
+  <h1 class="text-center" style="font-family: 'Bodoni Seventy Two Bold', serif;">Pesquisar Artista</h1>
+
+
+  <form th:action="@{/album/pesquisar}" method="get" class="d-flex justify-content-center mb-4">
+    <div class="input-group" style="max-width: 500px;">
+      <input type="text" name="artist" class="form-control" placeholder="Digite o nome do artista" aria-label="Search" required>
+      <button class="btn" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;" type="submit" >Buscar</button>
+    </div>
+  </form>
+
+
+
+  <div th:if="${mensagem}" class="alert alert-warning text-center" th:text="${mensagem}"></div>
+
+
+  <div th:if="${albuns}">
+    <table class="table table-bordered table-hover mt-4">
+      <thead class="table-dark">
+      <tr class="text-center" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
+        <th style="background-color: #875247;">Nome do Álbum</th>
+        <th style="background-color: #875247;">Descrição</th>
+        <th style="background-color: #875247;">Artista</th>
+        <th style="background-color: #875247;">Gênero</th>
+        <th style="background-color: #875247;">Data de Lançamento</th>
+        <th style="background-color: #875247;"></th>
+        <th style="background-color: #875247;"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="album : ${albuns}">
+        <td class="fw-bold" th:text="${album.nome}"></td>
+        <td class="text-muted" th:text="${album.about}"></td>
+        <td th:text="${album.artist}"></td>
+        <td class="text-muted" th:text="${album.genMusic.label}"></td>
+        <td th:text="${#temporals.format(album.dataLacamento, 'dd/MM/yyyy')}"></td>
+        <td>
+          <a th:href="@{/album/editar/}+${album.id}"
+             class="btn btn-outline"  style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Editar</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

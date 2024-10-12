@@ -8,35 +8,66 @@
     <title>Listar Álbuns</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/album/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Álbum</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/album/listar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Listagem de Álbuns</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
 <div layout:fragment="conteudo" class="container mt-5">
-    <h1>Lista de Álbuns Cadastrados</h1>
+    <h1 style="font-family: 'Bodoni Seventy Two Bold', serif;">Lista de Álbuns Cadastrados</h1>
+
+    <form class="d-flex justify-content-end mt-3 mb-3" th:action="@{/album/listar}" method="get">
+        <input class="form-control me-2" type="search" name="search" placeholder="Buscar Artista" aria-label="Search" style="width: 200px; font-family: 'Bodoni Seventy Two Bold', serif">
+        <button class="btn btn-outline-black" type="submit" style="background-color: #49322f; color: white;">Buscar</button>
+    </form>
+
+
+
 
     <div class="alert alert-success"
          th:if="!${#strings.isEmpty(mensagem)}" th:text="${mensagem}">
     </div>
 
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nome do Álbum</th>
-            <th>Descrição</th>
-            <th>Artista</th>
-            <th>Gênero</th>
-            <th>Data de Lançamento</th>
-            <th>Ações</th>
+    <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-dark">
+        <tr class="text-center" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
+            <th style="background-color: #875247;">Nome do Álbum</th>
+            <th style="background-color: #875247;">Descrição</th>
+            <th style="background-color: #875247;">Artista</th>
+            <th style="background-color: #875247;">Gênero</th>
+            <th style="background-color: #875247;">Data de Lançamento</th>
+            <th style="background-color: #875247;"></th>
+            <th style="background-color: #875247;"></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="album:${albuns}">
-            <td th:text="${album.nome}"></td>
-            <td th:text="${album.about}"></td>
+        <tr th:each="album : ${albuns}">
+            <td class="fw-bold" th:text="${album.nome}"></td>
+            <td class="text-muted" th:text="${album.about}"></td>
             <td th:text="${album.artist}"></td>
-            <td th:text="${album.genMusic}"></td>
-            <td th:text="${#temporals.format(album.dataLancamento, 'dd/MM/yyyy')}"></td>
+            <td class="text-muted" th:text="${album.genMusic.label}"></td>
+            <td th:text="${#temporals.format(album.dataLacamento, 'dd/MM/yyyy')}"></td>
             <td>
-                <a th:href="@{/album/editar/}+${album.id}" class="btn btn-outline-primary">Editar</a>
-
+                <a th:href="@{/album/editar/}+${album.id}"
+                   class="btn btn-outline"  style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Editar</a>
+            </td>
+            <td>
                 <button th:onclick="|albumId.value = ${album.id}|" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Remover
                 </button>
@@ -46,29 +77,32 @@
     </table>
 
 
-    <a th:href="@{/album/cadastrar}" class="btn btn-success">Cadastrar Novo Álbum</a>
 
+    <a th:href="@{/album/cadastrar}" class="btn" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Cadastrar Novo Álbum</a>
 
+    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Remover Álbum</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Tem certeza que deseja remover este álbum?
+                    Deseja realmente excluir esse album?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <form th:action="@{/album/remover}" method="post">
-                        <input type="hidden" name="id" id="albumId" th:value="${album.id}"/>
-                        <button type="submit" class="btn btn-danger">Remover</button>
+                        <input type="hidden" name="codigo" id="albumId"/>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-danger">Sim</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 </div>
 </body>
