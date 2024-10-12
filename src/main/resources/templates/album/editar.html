@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Álbum</title>
+  <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg" style="background-color: #e5bb9c; font-family: 'Bodoni Seventy Two Bold', serif;">
+  <div class="container-fluid">
+    <a class="navbar-brand"th:href="@{/home}" style="font-family: 'Bodoni Seventy Two Bold', serif;">JARVIS DISCO</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Álbum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/listar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Listagem de Álbuns</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/album/pesquisar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Pesquisar Artista</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<<div class="container mt-5">
+  <h1>Editar Álbum</h1>
+  <form th:action="@{/album/editar}" th:object="${album}" method="post">
+    <!-- Campo oculto para o ID -->
+    <input type="hidden" th:field="*{id}">
+
+    <div class="mb-3">
+      <label  class="form-label">Nome do Álbum</label>
+      <input type="text" th:field="*{nome}" class="form-control" placeholder="Digite a descrição do álbum">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Artista do Álbum</label>
+      <input type="text" class="form-control"  th:field="*{artist}" placeholder="Digite o nome do artista" required>
+    </div>
+    <div class="mb-3">
+      <label  class="form-label">Descrição do Álbum</label>
+      <textarea class="form-control" th:field="*{about}" rows="3" placeholder="Digite a descrição do álbum" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Data de Lançamento</label>
+      <input type="date" th:field="*{dataLacamento}" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Gênero da Música</label>
+      <select th:field="*{genMusic}" class="form-control">
+        <option value="">Escolha um gênero...</option>
+        <option th:each="gm:${genMusic}"
+                th:value="${gm}" th:text="${gm.label}"></option>
+      </select>
+    </div>
+    <button type="submit" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Salvar</button>
+  </form>
+</div>
+
+
+</body>
+</html>
