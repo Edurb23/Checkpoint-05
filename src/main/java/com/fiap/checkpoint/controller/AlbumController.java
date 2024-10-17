@@ -1,8 +1,10 @@
 package com.fiap.checkpoint.controller;
 
 import com.fiap.checkpoint.model.Album;
+import com.fiap.checkpoint.model.Artist;
 import com.fiap.checkpoint.model.GenMusic;
 import com.fiap.checkpoint.repository.AlbumRepository;
+import com.fiap.checkpoint.repository.ArtistRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +25,13 @@ public class AlbumController {
     @Autowired
     private AlbumRepository repository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     @GetMapping("cadastrar")
-    public String cadastrar(Album album, Model model){
+    public String cadastrar(Album album, Model model, Artist artist){
         model.addAttribute("genMusic", GenMusic.values());
+        model.addAttribute("artist", artistRepository.findAll());
         return "album/cadastro";
     }
 
@@ -37,7 +43,7 @@ public class AlbumController {
         return "album/listar";
     }
 
-    @GetMapping("pesquisar")
+   /* @GetMapping("pesquisar")
     public String pesquisarAlbuns(@RequestParam(value = "artist", required = false) String artist, Model model) {
         if (artist != null && !artist.isEmpty()) {
             List<Album> albuns = repository.findByArtist(artist);
@@ -48,7 +54,7 @@ public class AlbumController {
             }
         }
         return "album/pesquisar";
-    }
+    }*/
 
     @GetMapping("editar/{id}")
     public String editar(@PathVariable("id")Long id, Model model){

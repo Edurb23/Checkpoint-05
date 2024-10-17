@@ -40,10 +40,16 @@
       <label  class="form-label">Nome do Álbum</label>
       <input type="text" th:field="*{nome}" class="form-control" placeholder="Digite a descrição do álbum">
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Artista do Álbum</label>
-      <input type="text" class="form-control"  th:field="*{artist}" placeholder="Digite o nome do artista" required>
+      <label class="form-label">Artista do album</label>
+      <select th:field="*{artist}" class="form-control">
+        <option value="">Escolha o artista...</option>
+        <option th:each="aN:${artist}"
+                th:value="${aN.id}" th:text="${aN.artistName}"></option>
+      </select>
     </div>
+
     <div class="mb-3">
       <label  class="form-label">Descrição do Álbum</label>
       <textarea class="form-control" th:field="*{about}" rows="3" placeholder="Digite a descrição do álbum" required></textarea>
@@ -60,6 +66,7 @@
                 th:value="${gm}" th:text="${gm.label}"></option>
       </select>
     </div>
+
     <button type="submit" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Cadastrar</button>
   </form>
 </div>

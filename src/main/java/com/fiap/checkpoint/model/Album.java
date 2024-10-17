@@ -30,14 +30,16 @@ public class Album {
     @Column(name = "DS_ALBUM", length = 200, nullable = false)
     @NotBlank(message = "Descrição é obrigatorio")
     private String about;
-    @Column(name = "NM_ARTIST", length = 200, nullable = false)
-    @NotBlank(message = "Artista é obrigatorio")
-    private String artist;
     @Column(name = "DS_GEN", length = 30, nullable = false)
     private GenMusic genMusic;
     @Column(name = "dt_lacamento")
     @Past
     private LocalDate dataLacamento;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_ARTISTA")
+    private Artist artist;
+
 
 
 }

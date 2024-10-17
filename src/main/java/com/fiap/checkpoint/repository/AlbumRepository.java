@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AlbumRepository extends JpaRepository<Album , Long> {
 
-    List<Album> findByArtist(String artist);
+
 
     Page<Album> findAll(Pageable pageable);
 
