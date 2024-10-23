@@ -25,6 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/album/pesquisar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Pesquisar Artista</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/artist/cadastrar}" style="font-family: 'Bodoni Seventy Two Bold', serif;">Cadastrar Artista</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -47,6 +50,7 @@
             <th style="background-color: #875247;">Artista</th>
             <th style="background-color: #875247;">Gênero</th>
             <th style="background-color: #875247;">Data de Lançamento</th>
+            <th style="background-color: #875247;">Cover Url</th>
             <th style="background-color: #875247;"></th>
             <th style="background-color: #875247;"></th>
         </tr>
@@ -56,9 +60,11 @@
         <tr th:each="album : ${albunsPage.content}">
             <td class="fw-bold" th:text="${album.nome}"></td>
             <td class="text-muted" th:text="${album.about}"></td>
-            <td th:text="${album.artist.artistName}"></td>
+            <td th:text="${album.artist != null ? album.artist.artistName : 'Sem Artista'}"></td>
             <td class="text-muted" th:text="${album.genMusic.label}"></td>
             <td th:text="${#temporals.format(album.dataLacamento, 'dd/MM/yyyy')}"></td>
+            <td class="text-muted" th:text="${album.cover.coverURL}"></td>
+
             <td>
                 <a th:href="@{/album/editar/}+${album.id}"
                    class="btn btn-outline" style="background-color: #49322f; font-family: 'Bodoni Seventy Two Bold', serif; color: white;">Editar</a>
@@ -86,7 +92,7 @@
         </ul>
     </nav>
 
-    <!-- Modal de confirmação -->
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

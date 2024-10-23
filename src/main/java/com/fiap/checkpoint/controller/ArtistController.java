@@ -8,6 +8,7 @@ import com.fiap.checkpoint.repository.ArtistRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +29,23 @@ public class ArtistController {
         return "artist/cadastro";
     }
 
+    @GetMapping("confirmado")
+    public String confirmado(Artist artist){
+        return "artist/confirmado";
+    }
+
+
+
+
     @PostMapping("cadastrar")
+    @Transactional
     public String cadastrar(@Valid Artist artist, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return "artist/cadastro";
         }
         repository.save(artist);
         redirectAttributes.addAttribute("mensagem", "Album cadastrado!");
-        return "redirect:/album/listar";
+        return "redirect:/artist/confirmado";
     }
 
 

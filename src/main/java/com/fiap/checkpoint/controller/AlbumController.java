@@ -2,9 +2,11 @@ package com.fiap.checkpoint.controller;
 
 import com.fiap.checkpoint.model.Album;
 import com.fiap.checkpoint.model.Artist;
+import com.fiap.checkpoint.model.Cover;
 import com.fiap.checkpoint.model.GenMusic;
 import com.fiap.checkpoint.repository.AlbumRepository;
 import com.fiap.checkpoint.repository.ArtistRepository;
+import com.fiap.checkpoint.repository.CoverRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,12 +30,17 @@ public class AlbumController {
     @Autowired
     private ArtistRepository artistRepository;
 
+
+    @Autowired
+    private CoverRepository coverRepository;
+
     @GetMapping("cadastrar")
-    public String cadastrar(Album album, Model model, Artist artist){
+    public String cadastrar(Album album, Model model){
         model.addAttribute("genMusic", GenMusic.values());
         model.addAttribute("artist", artistRepository.findAll());
         return "album/cadastro";
     }
+
 
     @GetMapping("listar")
     public String listaAlbum(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
@@ -57,13 +64,17 @@ public class AlbumController {
     }*/
 
     @GetMapping("editar/{id}")
-    public String editar(@PathVariable("id")Long id, Model model){
-        model.addAttribute("album", repository.findById(id));
+    public String editar(@PathVariable("id") Long id, Model model) {
+        Album album = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Álbum inválido: " + id));
+        model.addAttribute("album", album);
         model.addAttribute("genMusic", GenMusic.values());
+        model.addAttribute("artists", artistRepository.findAll());
         return "album/editar";
     }
 
+
     @PostMapping("cadastrar")
+    @Transactional
     public String cadastrar(@Valid Album album, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("genMusic", GenMusic.values());
@@ -74,16 +85,20 @@ public class AlbumController {
         return "redirect:/album/listar";
     }
 
+
     @PostMapping("editar")
+    @Transactional
     public String editar(@Valid Album album, BindingResult result, RedirectAttributes redirectAttributes, Model model){
         if (result.hasErrors()) {
             model.addAttribute("genMusic", GenMusic.values());
-            return "album/editar"; //se tiver erro de validação, retorna para a página de cadastro
+            model.addAttribute("artists", artistRepository.findAll());
+            return "album/editar";
         }
-        repository.save(album);
-        redirectAttributes.addFlashAttribute("mensagem", "Album atualizado");
+        repository.save(album);  // Atualiza o álbum no banco
+        redirectAttributes.addFlashAttribute("mensagem", "Álbum atualizado");
         return "redirect:/album/listar";
     }
+
 
 
     @PostMapping("remover")
